@@ -10,15 +10,26 @@ public class Client {
 
             Socket socket = new Socket(args[0], Integer.parseInt( args[1]));
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-            String message = "";
-            while (!message.equals("exit")) {
-                message = bufferedReader.readLine();
-                dataOutputStream.writeUTF(message);
-                System.out.println("message is sent");
+
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+
+            String message;
+            message = dataInputStream.readUTF();
+            if (!message.equals("")){
+                System.out.println(message);
+            }
+            else {
+
+                while (!message.equals("exit")) {
+                    message = bufferedReader.readLine();
+                    dataOutputStream.writeUTF(message);
+                    System.out.println("message is sent");
+                }
+
             }
         } catch (IOException e) {
+
             e.printStackTrace();
         }
 
